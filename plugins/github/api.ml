@@ -264,6 +264,7 @@ module Ref = struct
     id: int;
     base: string;
     title: string;
+    isDraft: bool;
     labels: string list;
     bodyHTML: string;
     branch_name: string;
@@ -627,6 +628,7 @@ module Refs = Monitor(struct
             headRepository {
               nameWithOwner
             }
+            isDraft
             labels(first: 100) {
               nodes {
                 name
@@ -665,6 +667,7 @@ module Refs = Monitor(struct
     let title = node / "title" |> to_string in
     let branch_name = node / "headRefName" |> to_string in
     let fork = node / "headRepository" / "nameWithOwner" |> to_string in
+    let isDraft = node / "isDraft" |> to_bool in
     let labels = node / "labels" / "nodes" |> to_list |> List.map (fun label -> label / "name" |> to_string) in
     let bodyHTML = node / "bodyHTML" |> to_string in
     let nodes = node / "commits" / "nodes" |> to_list in
@@ -678,6 +681,7 @@ module Refs = Monitor(struct
         id = pr;
         base;
         title;
+        isDraft;
         labels;
         bodyHTML;
         branch_name;
@@ -687,7 +691,6 @@ module Refs = Monitor(struct
       committed_date;
       message
     }
-
   let of_yojson t { Repo_id.owner; name } data =
     let open Yojson.Safe.Util in
     let repo = data / "repository" in

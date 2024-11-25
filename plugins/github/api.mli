@@ -49,6 +49,7 @@ module Ref : sig
     id: int;
     base: string;
     title: string;
+    isDraft: bool;
     labels: string list;
     bodyHTML: string;
     branch_name: string;
