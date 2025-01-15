@@ -111,7 +111,7 @@ end
 val routes : Current.Engine.t -> Resource.t Routes.route list
 (** [routes engine] is the default routes for a web interface to [engine]. *)
 
-val run : ?mode:Conduit_lwt_unix.server -> Site.t -> ('a, [`Msg of string]) result Lwt.t
+val run : ?mode:(string option * Conduit_lwt_unix.server) -> Site.t -> ('a, [`Msg of string]) result Lwt.t
 (** [run ~mode site] runs a web-server (with configuration [mode]) that handles incoming requests for [site]. *)
 
-val cmdliner : Conduit_lwt_unix.server Cmdliner.Term.t
+val cmdliner : (string option * Conduit_lwt_unix.server) Cmdliner.Term.t
